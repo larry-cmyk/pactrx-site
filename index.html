@@ -14,6 +14,7 @@
       --charcoal: #2D3436;
       --text-secondary: #636E72;
       --light-teal: #E8F5F1;
+      --error-red: #E74C3C;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,27 +74,19 @@
       letter-spacing: -1.5px;
     }
 
-    .tagline {
-      font-size: 1.125rem;
-      color: var(--deep-teal);
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.5px;
-    }
-
-    .description {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-    }
-
     .divider {
       width: 60px;
       height: 3px;
       background: linear-gradient(90deg, var(--deep-teal), var(--deep-teal-light));
       border-radius: 2px;
       margin: 0 auto 2.5rem;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
     }
 
     .contact {
@@ -109,12 +102,161 @@
       border-radius: 12px;
       transition: all 0.2s ease;
       box-shadow: 0 2px 8px rgba(42, 111, 101, 0.3);
+      border: none;
+      cursor: pointer;
     }
 
     .contact:hover {
       background: var(--deep-teal-light);
       transform: translateY(-1px);
       box-shadow: 0 4px 16px rgba(42, 111, 101, 0.35);
+    }
+
+    .staff-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: transparent;
+      color: var(--deep-teal);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      border: 2px solid var(--deep-teal);
+      cursor: pointer;
+    }
+
+    .staff-login:hover {
+      background: var(--light-teal);
+      transform: translateY(-1px);
+    }
+
+    /* Login modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      animation: modalIn 0.2s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .modal p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #E0E0E0;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      font-family: inherit;
+    }
+
+    .input-group input:focus {
+      border-color: var(--deep-teal);
+    }
+
+    .input-group input.error {
+      border-color: var(--error-red);
+    }
+
+    .error-message {
+      font-size: 0.8125rem;
+      color: var(--error-red);
+      margin-top: 0.25rem;
+      margin-bottom: 0.5rem;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-buttons .btn-cancel {
+      flex: 1;
+      padding: 0.75rem;
+      background: #F5F5F5;
+      color: var(--text-secondary);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-family: inherit;
+    }
+
+    .modal-buttons .btn-cancel:hover {
+      background: #EBEBEB;
+    }
+
+    .modal-buttons .btn-submit {
+      flex: 2;
+      padding: 0.75rem;
+      background: var(--deep-teal);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .modal-buttons .btn-submit:hover {
+      background: var(--deep-teal-light);
     }
 
     .footer {
@@ -130,10 +272,9 @@
 
     @media (max-width: 640px) {
       h1 { font-size: 2rem; }
-      .tagline { font-size: 1rem; }
-      .description { font-size: 0.9375rem; }
       .logo-mark { width: 44px; height: 44px; font-size: 18px; border-radius: 11px; }
       .logo-text { font-size: 1.5rem; }
+      .modal { padding: 1.75rem; }
     }
   </style>
 </head>
@@ -146,13 +287,74 @@
 
     <h1>Coming Soon</h1>
     <div class="divider"></div>
-    <a href="mailto:info@pactrx.com" class="contact">
-      Get in Touch
-    </a>
+    <div class="buttons">
+      <a href="mailto:info@pactrx.com" class="contact">
+        Get in Touch
+      </a>
+      <button class="staff-login" onclick="openLogin()">
+        Staff Login
+      </button>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <h2>Staff Access</h2>
+      <p>Enter the access code to continue to the platform.</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <input type="password" id="accessCode" placeholder="Access code" autocomplete="off" autofocus>
+        </div>
+        <div class="error-message" id="errorMsg">Invalid access code. Please try again.</div>
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" onclick="closeLogin()">Cancel</button>
+          <button type="submit" class="btn-submit">Continue</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="footer">
     &copy; 2026 PactRX. All rights reserved.
   </div>
+
+  <script>
+    function openLogin() {
+      document.getElementById('loginModal').classList.add('active');
+      setTimeout(() => document.getElementById('accessCode').focus(), 100);
+    }
+
+    function closeLogin() {
+      document.getElementById('loginModal').classList.remove('active');
+      document.getElementById('accessCode').value = '';
+      document.getElementById('accessCode').classList.remove('error');
+      document.getElementById('errorMsg').classList.remove('visible');
+    }
+
+    // Close modal on overlay click
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) closeLogin();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLogin();
+    });
+
+    function handleLogin(e) {
+      e.preventDefault();
+      var code = document.getElementById('accessCode').value;
+      // Simple access gate — matches the seeded staff password
+      if (code === 'PactRX2024!') {
+        window.location.href = 'https://app-102220.on-aptible.com';
+      } else {
+        document.getElementById('accessCode').classList.add('error');
+        document.getElementById('errorMsg').classList.add('visible');
+        document.getElementById('accessCode').value = '';
+        document.getElementById('accessCode').focus();
+      }
+    }
+  </script>
 </body>
 </html>
